@@ -1,0 +1,1004 @@
+<!doctype html>
+<html>
+<head>
+<title>A Git Manual</title>
+<style>
+body{margin:0 auto;font-family:Helvetica,Arial, sans-serif;}
+#header{width:100%;height:10%;background:#000;color:#fff;padding:4px;}
+#header h1{color:#fff;}
+#footer{width:100%;height:10%;background:#000;color:#fff;padding:4px;}
+#footer h1{color:#fff;}
+#main{width:100%;height:80%;}
+#main h1{color:#365f91}
+#sidenavbar{width:18%;height:80%;background:#f0f0f0;float:left;padding:4px;}
+#sidenavbar a{text-decoration:none;color:black;}
+#box{width:80%;height:80%;background:#fff;float:right;padding:4px;}
+.clearboth{clear:both;}
+
+@media screen and (max-width:1000px){
+#header{width:100%;height:10%;background:#000;color:#fff;padding:4px;}
+#header h1{color:#fff;}
+#footer{width:100%;height:10%;background:#000;color:#fff;padding:4px;}
+#footer h1{color:#fff;}
+#main{width:100%;height:80%;}
+#main h1{color:#365f91}
+#sidenavbar{width:40%;height:80%;background:#f0f0f0;float:left;padding:4px;}
+#sidenavbar a{text-decoration:none;color:black;}
+#box{width:50%;height:80%;background:#fff;float:right;padding:4px;}
+#box img{max-width:100%}
+.clearboth{clear:both;}
+
+
+
+}
+
+
+</style>
+</head>
+<body>
+<div id="header">
+<h1>A GIT MANUAL</h1>
+</div>
+<div id="main">
+
+<div id="sidenavbar">
+<a name="top"></a>
+<ul>
+<li style="font-weight:bold">Part 1.Introduction to Git</li>
+<li><a href="#howtoinstall">A.3.How to Install Git on Windows</a></li>
+<li><a href="#initialsetup">1.2.Initial setup</a></li>
+<li><a href="#creatingarespository">Creating a Repository in Git</a></li>
+<li><a href="#gitsubdirectory">1.3 .git subdirectory</a></li>
+<li><a href="#listingfiles">Listing files in new repository</a></li>
+<li><a href="#bashlisting">Git bash output listing files</a></li>
+<li><a href="#creatinganewcommit">Creating a new commit: git add, git commit</a></li>
+<li><a href="#tech2gitadd">Technique 2 a new commit git add</a></li>
+<li><a href="#tech3gitcommit">Technique 3: git commit</a></li>
+<li><a href="#asecondcommit">Making a second commit</a></li>
+<li><a href="#gitobjectstore">Git object store</a></li>
+<li><a href="#parentcommits">Parent commits</a></li>
+<li><a href="#tech4viewinghistory">Technique 4: viewing history</a></li>
+<li><a href="#gitlog">git log</a></li>
+<li><a href="#gitkgitx">gitk, gitx</a></li>
+<li><a href="#rewritinghistory">Rewriting history</a></li>
+<li><a href="#diffformats">Diff formats and refs</a></li>
+<li><a href="#worddiffandrefs">Word diff and refs</a></li>
+<li><a href="#headmastermodifiedrefs">HEAD, master, modified refs</a></li>
+<li><a href="#ch2remotegit">Ch2 Remote Git</a></li>
+<li><a href="#gitremoteadd">Adding a remote repository</a></li>
+<a name="left1"></a>
+<li><a href="#creatingaremoterepository">Creating a remote repository</a></li>
+<li><a href="#authoritativeversionstorage">Authoritative version storage</a></li>
+<li><a href="#pushingchangestoremoterepository">Technique 7: Pushing changes to a remote repository</a></li>
+<li><a href="#issuessolutionsreremotes">Issues and solutions re: remotes</a></li>
+<li><a href="#cloningremotes">Technique 8 cloning a remote repository</a></li>
+<li><a href="#technique9">Technique 9 pulling from another repository</a></li>
+<li><a href="#technique10">Technique 10 git fetch without modifying local branches</a></li>
+<li><a href="#technique11">Technique 11 git branch creating a new local branch</a></li>
+<li><a href="#technique12">Technique 12 git checkout</a></li>
+<li><a href="#technique13">Technique 13 git push to remote</a></li>
+<li><a href="#technique14">Technique 14 git merge</a></li>
+<li><a href="#rebasing">Rebasing</a></li>
+<li><a href="#technique15">Technique 15 git delete origin</a></li>
+<li><a href="#technique16">Technique 16 deleting current branch after merging</a></li>
+<li><a href="#part2" style="font-weight:bold;">Part 2: Git essentials</a></li>
+<li><a href="#ch3filesysteminteraction">Ch. 3 Filesystem interaction</a></li>
+<li><a href="#technique17">Technique 17 Renaming or moving a file: git mv</a></li>
+<li><a href="#technique18">Technique 18 Removing a file: git rm</a></li>
+<a name="left2"></a>
+<li><a href="#technique19">Technique 19 git reset</a></li>
+<li><a href="#technique20">Technique 20 git clean</a></li>
+<li><a href="#technique21">Technique 21 gitignore</a></li>
+<li><a href="#technique22">Technique 22 deleting ignored files</a></li>
+<li><a href="#technique23">Technique 23 git stash</a></li>
+<li><a href="#technique24">Technique 24 git stash pop</a></li>
+<li><a href="#technique25">Technique 25 git stash clear</a></li>
+<li><a href="#technique26">Technique 26 git --assume-unchanged</a></li>
+<li><a href="#technique27">Technique 27 git ls-files -v</a></li>
+<li><a href="#technique28">Technique 28 git --no-assume-unchanged</a></li>
+<li><a href="#ch4history">Ch.4 History visualization</a></li>
+<li><a href="#technique29">Technique 29 listing only certain commits</a></li>
+<li><a href="#gitshow">4.1 git show</a></li>
+<li><a href="#technique30">Technique 30 commits with formatting</a></li>
+<li><a href="#gitlogonelinegraphdecorate">git log oneline graph decorate</a></li>
+<li><a href="#technique31">Technique 31 git blame</a></li>
+<li><a href="#technique32">Technique 32 git bisect</a></li>
+<li><a href="#automatinggitbisect">4.5 Automating git bisect</a></li>
+<li><a href="#ch5advancedbranching">Ch 5 Advanced branching</a></li>
+<li><a href="#technique33">Technique 33 merging branches</a></li>
+<li><a href="#5_1_merge_strategies">5.1 merge strategies</a></li>
+<li><a href="#technique34">Technique 34 resolving merge conflicts</a></li>
+<li><a href="#5_2_graphical_merge_tool">5.2 using a graphical merge tool</a></li>
+<li><a href="#technique35">Technique 35 git rerere</a></li>
+<a name="left3"></a>
+<li><a href="#technique36">Technique 36 git tag</a></li>
+<li><a href="#technique37">Technique 37 git describe</a></li>
+<li><a href="#technique38">Technique 38 git cherry-pick</a></li>
+<li><a href="#technique39">Technique 39 git revert</a></li>
+<li><a href="#ch6rewritinghistory">Ch 6 Rewriting history</a></li>
+<li><a href="#technique41">Technique 41 git reflog</a></li>
+<li><a href="#6_1_disasters">6.1 Avoiding and recovering from disasters</a></li>
+<li><a href="#technique42">Technique 42 git reset</a></li>
+<li><a href="#technique43">Technique 43 rebasing</a></li>
+<li><a href="#technique44">Technique 44 git rebase --interactive</a></li>
+<li><a href="#technique45">Technique 45 git pull --rebase</a></li>
+<li><a href="#technique46">Technique 46 git push --force</a></li>
+<li><a href="#technique47">Technique 47 git filter-branch</a></li>
+<li><a href="#part3AdvancedGit" style="font-weight:bold;">Part 3 Advanced Git</a></li>
+<li><a href="#ch7PersonalizingGit">Ch. 7 Personalizing Git</a></li>
+<li><a href="#technique48">Technique 48 git config --global</a></li>
+<li><a href="#technique49">Technique 49 git config flags</a></li>
+<li><a href="#7_1_UsefulConfigurationSettings">7.1 Useful configuration settings</a></li>
+<li><a href="#7_1_1_ColoredOutput">7.1.1. Colored output</a></li>
+<li><a href="#7_1_2_Git_push_defaults">7.1.2 Git 2.0 push defaults</a></li>
+<li><a href="#7_1_3_PruningBranchesAutomatically">7.1.3 Pruning branches automatically</a></li>
+<li><a href="#7_1_4_GlobalIgnoreFile">7.1.4. Global ignore file</a></li>
+<li><a href="#7_1_5_GitHelpWeb">7.1.5. Displaying help output in your browser</a></li>
+<li><a href="#7_1_6_storingpasswords">7.1.6 Storing passwords</a></li>
+<li><a href="#7_1_7_storingarbitrarytext">7.1.7. Storing arbitrary text</a></li>
+<li><a href="#7_1_8_autocorrectspelling">7.1.8. Autocorrect commands</a></li>
+<li><a href="#technique50">Technique 50 aliasing commands</a></li>
+<li><a href="#dotfiles">7.2. Sharing Git config in dotfiles</a></li>
+<li><a href="#technique51">Technique 51 showing current branch</a></li>
+<a name="left4"></a>
+<li><a href="#Ch8submodules">Ch. 8 Submodules</a></li>
+<li><a href="#technique52">Technique 52 git submodule add</a></li>
+<li><a href="#technique53">Technique 53 git submodule status</a></li>
+<li><a href="#technique54">Technique 54 git submodule update --init</a></li>
+<li><a href="#technique55">Technique 55 git submodule foreach</a></li>
+<li><a href="#omitted">Chapter 9 on subversion omitted</a></li>
+<li><a href="#Ch10GitHubPullRequests">Ch. 10 GitHub pull requests</a></li>
+<li><a href="#10_1_pullrequestsandforks">10.1 Pull requests and forks</a></li>
+<li><a href="#technique59">Technique 59 gh pull-request</a></li>
+<li><a href="#technique60">Technique 60 gh fork</a></li>
+<li><a href="#technique61">Technique 61 merging a pull request</a></li>
+<li><a href="#technique62">Technique 62 gh merge</a></li>
+<li><a href="#omitted">Chapters 11, 12, 13 and 14 omitted</a></li>
+
+
+
+
+
+
+
+
+
+
+
+
+</ul>
+
+</div>
+
+<div id="box">
+<p>
+From Git in Practice, Mike McQuaid, Manning Publications, Pub. Date, September 29, 2014
+</p>
+<p>
+Accessed from Safari Books Online-<br/>
+<img src="Fair_Use.jpg" alt="Why this document is within Fair Use doctrine">
+</p>
+<h1>Part 1. Introduction to Git</h1>
+<a name="howtoinstall"></a>
+<h1>How to install Git on Windows.</h1>
+<img src="A3_How_to_install_Git.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="initialsetup"></a>
+<img src="1_2_initial_setup.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="creatingarepository"></a>
+<h1>Creating a repository in GIT</h1>
+<img src="technique1_creating_a_repository_in_git.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+
+
+<a name="gitsubdirectory"></a>
+<img src="1_3_git_subdirectory.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="listingfiles"></a>
+<h1>Listing files created in a new repository</h1>
+<img src="listing_1_3_listing_files_created_in_a_new_repository.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+
+<a name="bashlisting"></a>
+<img src="bash_listing_1_3_listing_files.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="creatinganewcommit"></a>
+<h1>Creating a new commit: git add, git commit</h1>
+<img src="1_4_creating_a_new_commit_git_add_git_commit.jpg" alt="">
+
+<img src="1_4_bash_adding_a_file_to_index.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="tech2gitadd"></a>
+<h1>Technique 2 Building a new commit in the index staging area: git add</h1>
+<img src="technique2_building_a_new_commit.jpg" alt="">
+<img src="1_4_bash_adding_a_file_to_index.jpg" alt="">
+<img src="1_4_discussion_git_add.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="tech3gitcommit"></a>
+<h1>Technique 3 Committing changes to files: git commit</h1>
+<img src="1_4_technique3_committing_changes_to_files.jpg" alt="">
+<img src="listing_1_5_committing_changes_staged_in_index.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="asecondcommit"></a>
+<h1>Listing 1.6 Making a second commit</h1>
+<img src="1_6_making_a_second_commit.jpg" alt="">
+<img src="1_6_bash_second_commit.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="gitobjectstore"></a>
+<h1>1.4.1 Git Object store</h1>
+<img src="1_4_1_Object_store.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+
+<a name="parentcommits"></a>
+<h1>1.4.2 Parent commits</h1>
+<img src="1_4_2_Parent_commits.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="tech4viewinghistory"></a>
+<h1>1.4.2 Technique 4 viewing history: git log, gitk, gitx</h1>
+<img src="listing_1_4_2_technique4_viewing_history.jpg" alt="">
+<a name="gitlog"></a>
+<p>
+<a href="#top">TOP</a>
+</p>
+<h1>gitlog</h1>
+<img src="listing_1_7_history_output.jpg" alt="">
+
+<img src="technique4_git_bash_viewing_history.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="gitkgitx"></a>
+<h1>gitk, gitx</h1>
+<img src="1_7_gitx_history_output.jpg" alt="">
+<img src="1_7_running_gitk.jpg" alt="">
+<img src="1_7_running_gitk2.jpg" alt="">
+<img src="1_7_running_gitk3.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="rewritinghistory"></a>
+<h1>Re-writing history</h1>
+<img src="1_5_rewriting_history.jpg" alt="">
+<img src="technique5_viewing_the_differences.jpg" alt="">
+<img src="listing_1_8_continued.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="diffformats"></a>
+<h1>Diff formats</h1>
+<img src="1_6_diff_formats.jpg" alt="">
+<img src="git_bash_git_diff.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="worddiffandrefs"></a>
+<h1>Word diff format and refs</h1>
+<img src="listing_1_10_word_diff_and_refs.jpg" alt="">
+<img src="git_bash_word_diff.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="headmastermodifiedrefs"></a>
+<h1>HEAD, master, modified refs</h1>
+<img src="Fig_1_10_head_master_and_modified_refs.jpg" alt="">
+<img src="1_8_summary.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="ch2remotegit"></a>
+<h1>Chapter 2 Remote Git</h1>
+<a name="gitremoteadd"></a>
+<h1>git remote add</h1>
+<img src="Ch2_Remote_Git.jpg" alt="">
+<img src="Fig_2_1_Git_add_commit_checkout_cycle.jpg" alt="">
+<img src="Fig_2_2_Git_add_commit_push_pull_checkout_cycle.jpg" alt="">
+<img src="Fig_2_2_git_bash_add_remote.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="creatingaremoterepository"></a>
+<h1>Output: creating a remote repository</h1>
+<img src="listing_2_1_output_creating_a_remote_repository.jpg" alt="">
+<img src="listing_2_1_bash_output.jpg" alt="">
+<img src="listing_2_1_remote_discussion.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="authoritativeversionstorage"></a>
+<h1>Authoritative Version Storage</h1>
+<img src="2_1_authoritative_version_storage.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="pushingchangestoremoterepository"></a>
+<h1>Technique 7 pushing changes to a remote repository: git push</h1>
+<img src="2_1_technique7_pushing_changes_to_remote_repository.jpg" alt="">
+<img src="listing_2_2_remote_discussion2.jpg" alt="">
+<img src="2_1_technique7_pushing_changes_to_remote_repository2.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="issuessolutionsreremotes"></a>
+<h1>Issues and solutions re: pushing to remote repository</h1>
+There are two potential problems pushing to a remote repository:<br>
+1. On windows you must first use git remote set-url origin instead of git remote add origin.<br>
+2. You must first pull from the remote repository before you push to it.
+
+<img src="issues_and_solutions_re_remotes.jpg" alt="">
+<img src="solution_pushing_to_remote_help.jpg" alt="">
+<img src="problems_pushing_to_remote.jpg" alt="">
+<img src="solution_pushing_to_remote.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="cloningremotes"></a>
+<h1>Technique 8 cloning a remote repository: git clone</h1>
+<img src="technique8_cloning_remote.jpg" alt="">
+<img src="Listing_2_3_cloning_a_remote_repository.jpg" alt="">
+<img src="listing_2_4_output_remote_respository.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique9"></a>
+<h1>Technique 9 pulling changes from another repository</h1>
+<img src="technique9_pulling_from_another_repository.jpg" alt="">
+<img src="listing_2_5_output_pulling_new_changes.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique10"></a>
+<h1>Technique 10 git fetch from a remote without modifying local branches</h1>
+<img src="Fig_2_6_local_repository_after_git_pull.jpg" alt="">
+<img src="listing_2_6_output_fetching_new_changes.jpg" alt="">
+<img src="listing_2_7_output_pull_after_fetch.jpg" alt="">
+<img src="Fig_2_8_local_repository_after_git_fetch_and_then_git_pull.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique11"></a>
+<h1>Technique 11 creating a new local branch</h1>
+<img src="technique11_git_branch.jpg" alt="">
+<img src="listing_2_8_output_listing_branches.jpg" alt="">
+<img src="git_bash_git_branch.jpg" alt="">
+<img src="Fig_2_11_2_12_local_repository_after_git_branch.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique12"></a>
+<h1>Technique 12: git checkout</h1>
+<img src="technique12_git_checkout.jpg" alt="">
+<img src="git_bash_git_checkout.jpg" alt="">
+<img src="Fig_2_13_add_commit_checkout_workflow.jpg" alt="">
+<img src="Fig_2_14_head_pointer_with_multiple_branches.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique13"></a>
+<h1>Technique 13 git push to remote</h1>
+<img src="technique13_git_push_to_remote.jpg" alt="">
+<img src="git_bash_git_push_upstream.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique14"></a>
+<h1>Technique 14 git merge</h1>
+<img src="technique14_git_merge.jpg" alt="">
+<img src="listing_2_10_output_merging_a_branch.jpg" alt="">
+<img src="listing_2_10_merging_conflicts.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="rebasing"></a>
+<h1>Rebasing</h1>
+<img src="2_3_Rebasing.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique15"></a>
+<h1>Technique 15 git delete origin</h1>
+<img src="technique15_git_delete_origin.jpg" alt="">
+<img src="git_bash_git_delete_origin.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique16"></a>
+<h1>Technique 16 Deleting current local branch after merging</h1>
+<img src="technique16_deleting_current_branch.jpg" alt="">
+<img src="gitk_merging_branches.jpg" alt="">
+<img src="why_delete_remote_branch_first.jpg" alt="">
+
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="part2"></a>
+<h1>Part 2: Git essentials</h1>
+<img src="Part2_git_essentials.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="ch3filesysteminteraction"></a>
+<h1>Ch. 3 Filesystem interaction</h1>
+<img src="Ch3_filesystem_interaction.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique17"></a>
+<h1>Technique 17 renaming or moving a file: git mv</h1>
+<img src="technique17_renaming_or_moving_a_file.jpg" alt="">
+<img src="listing_3_1_output_renamed_commit.jpg" alt="">
+<img src="listing_3_1_output_renaming_moving_file.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique18"></a>
+<h1>Technique 18 git rm, removing a file</h1>
+<img src="technique18_removing_a_file.jpg" alt="">
+<img src="Listing_3_2_output_removed_commit.jpg" alt="">
+<img src="listing_3_3_bash_output_removing_tmp_files.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique19"></a>
+<h1>Technique 19 git reset</h1>
+<img src="technique19_git_reset.jpg" alt="">
+<img src="dangers_of_git_reset_hard.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique20"></a>
+<h1>Technique 20 git clean</h1>
+<img src="technique20_git_clean.jpg" alt="">
+<img src="git_bash_git_clean_force.jpg" alt="">
+<img src="dangers_of_git_clean_force.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique21"></a>
+<h1>Technique 21 gitignore</h1>
+<img src="technique21_gitignore.jpg" alt="">
+<img src="Listing_3_5_output_ignore_file_commit.jpg" alt="">
+<img src="Listing_3_6_output_trying_an_ignored_file.jpg" alt="">
+<img src="Listing_3_3_bash_output_technique22_deleting_ignored_files.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique22"></a>
+<h1>Technique 22 deleting ignored files</h1>
+<img src="technique22_deleting_ignored_files.jpg" alt="">
+<img src="Listing_3_3_bash_output_technique22_deleting_ignored_files.jpg" alt="">
+<img src="x_argument.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+<a name="technique23"></a>
+<img src="technique23_git_stash.jpg" alt="">
+<img src="git_bash_git_stash1.jpg" alt="">
+<img src="git_stash_discussion.jpg" alt="">
+<img src="git_bash_git_stash2.jpg" alt="">
+<p>
+<a href="#top">TOP</a>
+</p>
+
+<a name="technique24"></a>
+<h1>Technique 24 git stash pop</h1>
+<img src="technique24_git_stash_pop.jpg" alt="">
+<img src="git_bash_git_stash_pop.jpg" alt="">
+<img src="discussion_git_stash_pop.jpg" alt="">
+<p>
+<a href="#left1">TOP</a>
+</p>
+<a name="technique25"></a>
+<h1>Technique 25 git stash clear</h1>
+<img src="technique25_git_stash_clear.jpg" alt="">
+<p>
+<a href="#left1">TOP</a>
+</p>
+<a name="technique26"></a>
+<h1>Technique 26 assume unchanged</h1>
+<img src="technique26_assume_unchanged.jpg" alt="">
+<img src="discussion_git_assume_unchanged.jpg" alt="">
+<p>
+<a href="#left1">TOP</a>
+</p>
+<a name="technique27"></a>
+<h1>Technique 27 ls files -v</h1>
+<img src="technique27_ls_files_v.jpg" alt="">
+<img src="git_bash_ls_files_v.jpg" alt="">
+<img src="discussion_ls_files_v.jpg" alt="">
+<p>
+<a href="#left1">TOP</a>
+</p>
+<a name="technique28"></a>
+<h1>Technique 28 stopping assuming files are unchanged</h1>
+<img src="technique28_no_assume_unchanged.jpg" alt="">
+<img src="discussion_git_no_assume_unchanged.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="ch4history"></a>
+<img src="Ch4_history_visualization_intro.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique29"></a>
+<h1>Technique 29 showing only certain commits</h1>
+<img src="technique29_only_certain_commits.jpg" alt="">
+<img src="technique29_only_certain_commits2.jpg" alt="">
+<img src="technique29_only_certain_commits3.jpg" alt="">
+<img src="discussion_only_certain_commits.jpg" alt="">
+
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="gitshow"></a>
+<img src="4_1_git_show.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique30"></a>
+<h1>Technique 30 commits with formatting</h1>
+<img src="technique30_commits_with_formatting.jpg" alt="">
+<img src="git_bash_commit_formatting1.jpg" alt="">
+<img src="commit_formatting2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<img src="commit_formatting3.jpg" alt="">
+<img src="discussion_commit_formatting1.jpg" alt="">
+<img src="discussion_commit_formatting2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="gitlogonelinegraphdecorate"></a>
+<h1>git log --oneline --graph --decorate</h1>
+<img src="git_log_oneline_graph_decorate1.jpg" alt="">
+<img src="git_log_oneline_graph_decorate2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<img src="git_bash_git_log_oneline_graph_decorate1.jpg" alt="">
+<p>
+<img src="git_bash_git_log_oneline_graph_decorate2.jpg" alt="">
+</p>
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique31"></a>
+<h1>Technique 31 git blame</h1>
+<img src="technique31_git_blame1.jpg" alt="">
+<img src="git_bash_git_blame1.jpg" alt="">
+<img src="technique31_git_blame2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique32"></a>
+<h1>Technique 32 git bisect</h1>
+<img src="technique32_git_bisect1.jpg" alt="">
+<img src="technique32_git_bisect2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<img src="technique32_git_bisect3.jpg" alt="">
+<img src="discussion_git_bisect1.jpg" alt="">
+<img src="discussion_git_bisect2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="automatinggitbisect"></a>
+<h1>git bisect continued</h1>
+<img src="4_5_automating_git_bisect1.jpg" alt="">
+<img src="4_5_automating_git_bisect2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="ch5advancedbranching"></a>
+<h1>Advanced branching Ch. 5</h1>
+<img src="Ch5_advanced_branching1.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique33"></a>
+<h1>Technique 33 merge commit</h1>
+<img src="technique33_merging_branches1.jpg" alt="">
+<img src="technique33_merge_commit2.jpg" alt="">
+<img src="technique33_forced_merge_commit.jpg" alt="">
+<img src="discussion_technique33_merge_commit.jpg" alt="">
+<img src="git_bash_merge_commit1.jpg" alt="">
+<img src="git_bash_merge_commit2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="5_1_merge_strategies"></a>
+<h1>git merge --strategy</h1>
+<img src="5_1_merge_strategies1.jpg" alt="">
+<img src="5_1_merge_strategies2.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique34"></a>
+<h1>Technique 34 resolving merge conflicts</h1>
+<img src="technique34_resolving_merge_conflicts1.jpg" alt="">
+<img src="technique34_resolving_merge_conflicts2.jpg" alt="">
+<img src="technique34_resolving_merge_conflicts3.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<img src="technique34_resolving_merge_conflicts4.jpg" alt="">
+<img src="technique34_resolving_merge_conflicts5.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<img src="technique34_resolving_merge_conflicts6.jpg" alt="">
+<img src="technique34_resolving_merge_conflicts7.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="5_2_graphical_merge_tool"></a>
+<h1>5.2 graphical merge tool</h1>
+<img src="5_2_graphical_merge_tool.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique35"></a>
+<h1>Technique 35 git rerere</h1>
+<img src="technique35_git_rerere1.jpg" alt="">
+<img src="discussion_git_rerere.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique36"></a>
+<h1>Technique 36 git tag</h1>
+<img src="technique36_git_tag1.jpg" alt="">
+<img src="technique36_git_tag2.jpg" alt="">
+<img src="technique36_git_tag3.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique37"></a>
+<h1>Technique 37 git describe</h1>
+<img src="technique37_git_describe1.jpg" alt="">
+<img src="technique37_git_describe2.jpg" alt="">
+<img src="technique37_git_describe3.jpg" alt="">
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique38"></a>
+<h1>Technique 38 git cherry-pick</h1>
+<img src="technique38_git_cherry_pick1.jpg" alt="">
+<img src="technique38_git_cherry_pick2.jpg" alt="">
+<img src="technique38_git_cherry_pick3.jpg" alt="">
+
+<p>
+<a href="#left2">TOP</a>
+</p>
+<a name="technique39"></a>
+<h1>Technique 39 git revert</h1>
+<img src="technique39_git_revert1.jpg" alt="">
+<img src="technique39_git_revert2.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique40"></a>
+<h1>Technique 40 git cherry</h1>
+<img src="technique40_git_cherry1.jpg" alt="">
+<img src="technique40_git_cherry2.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="ch6rewritinghistory"></a>
+<h1>Ch 6 Rewriting history</h1>
+<img src="Ch6_rewriting_history_and_disaster_recovery1.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique41"></a>
+<h1>Technique 41 git reflog</h1>
+<img src="technique41_git_reflog1.jpg" alt="">
+<img src="technique41_git_reflog2.jpg" alt="">
+<img src="technique41_git_reflog3.jpg" alt="">
+<img src="git_bash_git_reflog.jpg" alt="">
+<img src="technique41_git_reflog4.jpg" alt="">
+
+
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="6_1_disasters"></a>
+<h1>6.1 Avoiding and recovering from disasters</h1>
+<img src="6_1_disasters.jpg" alt="">
+
+<a name="technique42"></a>
+<h1>Technique 42 git reset</h1>
+
+<img src="technique42_git_reset1.jpg" alt="">
+<img src="technique42_git_reset2.jpg" alt="">
+<img src="technique42_git_reset3.jpg" alt="">
+
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique43"></a>
+<h1>Technique 43 rebasing</h1>
+<img src="technique43_rebasing1.jpg" alt="">
+<img src="technique43_rebasing2.jpg" alt="">
+<img src="technique43_rebasing3.jpg" alt="">
+<img src="technique43_rebasing4.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique44"></a>
+<h1>Technique 44 git rebase --interactive</h1>
+<img src="technique44_rebase_interactive1.jpg" alt="">
+<img src="technique44_rebase_interactive2.jpg" alt="">
+<img src="technique44_rebase_interactive3.jpg" alt="">
+<img src="technique44_rebase_interactive4.jpg" alt="">
+<img src="technique44_rebase_interactive5.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique45"></a>
+<h1>Technique 45 git pull --rebase</h1>
+<img src="technique45_git_pull_rebase1.jpg" alt="">
+<img src="technique45_git_pull_rebase2.jpg" alt="">
+<img src="technique45_git_pull_rebase3.jpg" alt="">
+<img src="technique45_git_pull_rebase4.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique46"></a>
+<h1>Technique 46 git push --force</h1>
+<img src="technique46_git_push_force1.jpg" alt="">
+<img src="technique46_git_push_force2.jpg" alt="">
+<img src="technique46_git_push_force3.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique47"></a>
+<h1>Technique 47 git filter-branch</h1>
+<img src="technique47_git_filter_branch1.jpg" alt="">
+<img src="technique47_git_filter_branch2.jpg" alt="">
+<img src="technique47_git_filter_branch3.jpg" alt="">
+<img src="technique47_git_filter_branch4.jpg" alt="">
+<img src="technique47_git_filter_branch5.jpg" alt="">
+<img src="technique47_git_filter_branch6.jpg" alt="">
+
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="part3AdvancedGit"></a>
+<h1>Part 3 Advanced Git</h1>
+<img src="Part3_AdvancedGit.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="ch7PersonalizingGit"></a>
+<h1>Ch 7 Personalizing Git</h1>
+<img src="Ch7_PersonalizingGit.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique48"></a>
+<h1>Technique 48 git config --global</h1>
+<img src="technique48_git_config_global1.jpg" alt="">
+<img src="technique48_git_config_global2.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique49"></a>
+<h1>Technique 49 git config flags</h1>
+<img src="technique49_git_config_flags1.jpg" alt="">
+<img src="technique49_git_config_flags2.jpg" alt="">
+<img src="technique49_git_config_flags3.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_UsefulConfigurationSettings"></a>
+<h1>7.1 Useful configuration settings</h1>
+<img src="7_1_useful_config_settings.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_1_ColoredOutput"></a>
+<h1>7.1.1. Colored output</h1>
+<img src="7_1_1_colored_output1.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_2_Git_push_defaults"></a>
+<h1>7.1.2 Git 2.0 push defaults</h1>
+<img src="7_1_2_git_push_defaults.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_3_PruningBranchesAutomatically"></a>
+<h1>7.1.3 Pruning branches automatically</h1>
+<img src="7_1_3_pruning_branches_automatically.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_4_GlobalIgnoreFile"></a>
+<h1>7.1.4. Global ignore file</h1>
+<img src="7_1_4_global_ignore_file.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_5_GitHelpWeb"></a>
+<h1>7.1.5 git help --help --web</h1>
+<img src="7_1_5_git_help_web.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_6_storingpasswords"></a>
+<h1>7.1.6 Storing passwords</h1>
+<img src="7_1_6_storing_passwords.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_7_storingarbitrarytext"></a>
+<h1>7.1.7. Storing arbitrary text</h1>
+<img src="7_1_7_storing_arbitrary_text.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="7_1_8_autocorrectspelling"></a>
+<h1>7.1.8. Autocorrect commands</h1>
+<img src="7_1_8_autocorrectspelling.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique50"></a>
+<h1>Technique 50 aliasing commands</h1>
+<img src="technique50_aliasing_commands1.jpg" alt="">
+<img src="technique50_aliasing_commands2.jpg" alt="">
+<img src="technique50_aliasing_commands3.jpg" alt="">
+
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="dotfiles"></a>
+<h1>7.2. Sharing Git config in dotfiles</h1>
+<img src="7_2_dotfiles.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique51"></a>
+<h1>Technique 51 showing current branch</h1>
+<img src="technique51_current_branch1.jpg" alt="">
+<img src="technique51_current_branch2.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="Ch8submodules"></a>
+<h1>Ch. 8 Submodules</h1>
+<img src="Ch8_submodules.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique52"></a>
+<h1>Technique 52 git submodule add</h1>
+<img src="technique52_git_submodule_add1.jpg" alt="">
+<img src="technique52_git_submodule_add2.jpg" alt="">
+<img src="technique52_git_submodule_add3.jpg" alt="">
+<img src="technique52_git_submodule_add4.jpg" alt="">
+<img src="technique52_git_submodule_add5.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique53"></a>
+<h1>Technique 53 git submodule status</h1>
+<img src="technique53_git_submodule_status.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique54"></a>
+<h1>Technique 54 git submodule update --init</h1>
+<img src="technique54_git_submodule_update.jpg" alt="">
+<img src="technique54_git_submodule_update2.jpg" alt="">
+<img src="technique54_git_submodule_update3.jpg" alt="">
+
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="technique55"></a>
+<h1>Technique 55 git submodule foreach</h1>
+<img src="technique55_git_submodule_foreach.jpg" alt="">
+<p>
+<a href="#left3">TOP</a>
+</p>
+<a name="Ch10GitHubPullRequests"></a>
+<h1>Ch. 10 GitHub pull requests</h1>
+<img src="Ch10_GitHubPullRequests.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+<a name="10_1_pullrequestsandforks"></a>
+<h1>10.1 Pull requests and forks</h1>
+<img src="10_1_pull_requests_and_forks2.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+
+<a name="technique59"></a>
+<h1>Technique 59 gh pull-request</h1>
+<img src="technique59_gh_pull_request.jpg" alt="">
+<img src="technique59_gh_pull_request2.jpg" alt="">
+<img src="technique59_gh_pull_request3.jpg" alt="">
+<img src="technique59_gh_pull_request4.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+<a name="technique60"></a>
+<h1>Technique 60 gh fork</h1>
+<img src="technique60_gh_fork.jpg" alt="">
+<img src="technique60_gh_fork2.jpg" alt="">
+<img src="technique60_gh_fork3.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+<a name="technique61"></a>
+<h1>Technique 61 merging a pull request</h1>
+<img src="technique61_merging_a_pull_request.jpg" alt="">
+<img src="technique61_merging_a_pull_request2.jpg" alt="">
+<img src="technique61_merging_a_pull_request3.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+<a name="technique62"></a>
+<h1>Technique 62 gh merge</h1>
+<img src="technique62_gh_merge.jpg" alt="">
+<img src="technique62_gh_merge2.jpg" alt="">
+<p>
+<a href="#left4">TOP</a>
+</p>
+<a name="omitted"></a>
+<h1>Omitted Sections</h1>
+Chapter 9 on Subversion Git migration has been omitted, as have Chapters 11, 12, 13
+and 14. You can access the full manual in a zip file <a href="" target="_blank" style="text-decoration:none;">here</a>.
+<p>
+<a href="#left4">TOP</a>
+</p>
+</div>
+<div class="clearboth"></div>
+
+
+<div id="footer">
+
+<h1 style="color:#fff;">From Safari Books Online: Git in Practice, Mike McQuaid, Manning Publications, Pub. Date, September 28, 2014</h1>
+
+</div>
+</div>
+</body>
+</html>
